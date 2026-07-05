@@ -6,9 +6,17 @@ from app.schemas import ChatRequest, ChatResponse
 from app.document_loader import load_and_split_pdf
 from app.vector_store import index_documents
 from app.run_sanity_check import run_sanity_check
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(title="Basic RAG API")
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/health")
 def health():
@@ -18,7 +26,11 @@ def health():
 def chat(request: ChatRequest):
     return StreamingResponse(
         stream_rag(request.message),
-        media_type="text/plain",
+        media_type="application/x-ndjson",
+        headers={
+            "Cache-Control": "no-cache",
+            "X-Accel-Buffering": "no",
+        },
     )
 
 @app.get("/documents/chunks")
