@@ -1,9 +1,11 @@
 from fastapi import FastAPI
+from fastapi.responses import StreamingResponse
 
-from app.rag import ask_rag
+from app.rag import stream_rag
 from app.schemas import ChatRequest, ChatResponse
 from app.document_loader import load_and_split_pdf
 from app.vector_store import index_documents
+from app.run_sanity_check import run_sanity_check
 
 app = FastAPI(title="Basic RAG API")
 
@@ -12,11 +14,12 @@ app = FastAPI(title="Basic RAG API")
 def health():
     return {"status": "ok"}
 
-@app.post("/chat", response_model=ChatResponse)
+@app.post("/chat")
 def chat(request: ChatRequest):
-    answer = ask_rag(request.message)
-
-    return ChatResponse(answer=answer)
+    return StreamingResponse(
+        stream_rag(request.message),
+        media_type="text/plain",
+    )
 
 @app.get("/documents/chunks")
 def get_document_chunks():
@@ -40,4 +43,29 @@ def index_pdf():
     return {
         "message": "Document indexed successfully",
         "chunks": count,
+    }
+
+from app.vector_store import vector_store
+
+
+@app.get("/debug/search")
+def debug_search(query: str):
+
+    run_sanity_check()
+
+    results = vector_store.similarity_search_with_score(
+        query,
+        k=5,
+    )
+
+    return {
+        "query": query,
+        "results": [
+            {
+                "content": document.page_content,
+                "metadata": document.metadata,
+                "score": score,
+            }
+            for document, score in results
+        ],
     }

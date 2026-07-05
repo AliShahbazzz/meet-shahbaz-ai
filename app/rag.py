@@ -1,5 +1,5 @@
 from langchain_core.prompts import ChatPromptTemplate
-
+from collections.abc import Iterator
 from app.llm import llm
 from app.vector_store import vector_store
 
@@ -10,11 +10,12 @@ You are a precise question-answering assistant.
 Answer the question using only the provided context.
 
 Rules:
-- Answer directly and concisely.
+- Answer more descriptive.
+- Try to add more related info than being concise.
 - Do not add background information unless necessary.
 - Do not repeat the question.
 - Do not mention the context or document.
-- Prefer 1-3 sentences.
+- Prefer 3-5 sentences and bullet points.
 - If the question asks for a list, return only the relevant items.
 - If the answer is not available, say exactly:
   "I don't know based on the provided document."
@@ -29,10 +30,10 @@ Answer:
 """)
 
 
-def ask_rag(question: str) -> str:
+def stream_rag(question: str) -> Iterator[str]:
     documents = vector_store.similarity_search(
         question,
-        k=2,
+        k=5,
     )
 
     context = "\n\n".join(
@@ -42,9 +43,9 @@ def ask_rag(question: str) -> str:
 
     chain = prompt | llm
 
-    response = chain.invoke({
+    for chunk in chain.stream({
         "context": context,
         "question": question,
-    })
-
-    return response.content
+    }):
+        if chunk.content:
+            yield str(chunk.content)
