@@ -1,7 +1,7 @@
 from langchain_chroma import Chroma
 
 from app.embeddings import embeddings
-from app.document_loader import load_and_split_pdf
+from app.document_loader import load_and_split_document
 
 
 vector_store = Chroma(
@@ -12,7 +12,7 @@ vector_store = Chroma(
 
 
 def index_documents():
-    chunks = load_and_split_pdf()
+    chunks = load_and_split_document()
 
     vector_store.add_documents(chunks)
 

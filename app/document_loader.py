@@ -1,16 +1,14 @@
-import pymupdf4llm
+from pathlib import Path
 
 from langchain_core.documents import Document
 from langchain_text_splitters import MarkdownHeaderTextSplitter, RecursiveCharacterTextSplitter
-from langchain_community.embeddings import HuggingFaceEmbeddings
-from langchain_community.vectorstores import FAISS
 
 
-PDF_PATH = "documents/syed-shahbaz-ali.pdf"
+DOCUMENT_PATH = "documents/syed-shahbaz-ali.md"
 
 
-def load_and_split_pdf() -> list[Document]:
-    markdown = pymupdf4llm.to_markdown(PDF_PATH)
+def load_and_split_document() -> list[Document]:
+    markdown = Path(DOCUMENT_PATH).read_text(encoding="utf-8")
 
     header_splitter = MarkdownHeaderTextSplitter(
         headers_to_split_on=[
@@ -35,6 +33,6 @@ def load_and_split_pdf() -> list[Document]:
     chunks = size_splitter.split_documents(header_chunks)
 
     for chunk in chunks:
-        chunk.metadata["source"] = PDF_PATH
+        chunk.metadata["source"] = DOCUMENT_PATH
 
     return chunks

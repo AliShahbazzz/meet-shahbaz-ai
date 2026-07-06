@@ -1,11 +1,11 @@
 from app.embeddings import embeddings
 from app.vector_store import vector_store  # or wherever you instantiate it
-from app.document_loader import load_and_split_pdf
+from app.document_loader import load_and_split_document
 
 
 def run_sanity_check():
     # Make sure the index actually has your data
-    chunks = load_and_split_pdf()
+    chunks = load_and_split_document()
     print(f"Loaded {len(chunks)} chunks\n")
 
     test_queries = [

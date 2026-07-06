@@ -1,12 +1,13 @@
 from fastapi import FastAPI
 from fastapi.responses import StreamingResponse
-
-from app.rag import stream_rag
-from app.schemas import ChatRequest, ChatResponse
-from app.document_loader import load_and_split_pdf
-from app.vector_store import index_documents
-from app.run_sanity_check import run_sanity_check
 from fastapi.middleware.cors import CORSMiddleware
+
+from app.vector_store import vector_store
+from app.rag import stream_rag
+from app.schemas import ChatRequest
+from app.document_loader import load_and_split_document
+from app.vector_store import index_documents, vector_store
+from app.run_sanity_check import run_sanity_check
 
 app = FastAPI(title="Basic RAG API")
 
@@ -35,7 +36,7 @@ def chat(request: ChatRequest):
 
 @app.get("/documents/chunks")
 def get_document_chunks():
-    chunks = load_and_split_pdf()
+    chunks = load_and_split_document()
 
     return {
         "count": len(chunks),
@@ -57,13 +58,9 @@ def index_pdf():
         "chunks": count,
     }
 
-from app.vector_store import vector_store
-
 
 @app.get("/debug/search")
 def debug_search(query: str):
-
-    run_sanity_check()
 
     results = vector_store.similarity_search_with_score(
         query,
@@ -81,3 +78,9 @@ def debug_search(query: str):
             for document, score in results
         ],
     }
+
+@app.post("/sanity-check")
+def index_pdf():
+    run_sanity_check()
+
+    return True
