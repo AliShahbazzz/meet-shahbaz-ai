@@ -103,23 +103,23 @@ function Composer() {
           placeholder="Ask whatever you want..."
           rows={1}
         />
-        <button type="button" className="composer__source-picker">
+        {/* <button type="button" className="composer__source-picker">
           <IconGlobe className="composer__source-picker-icon" />
           <span>All Web</span>
           <IconChevronDown className="composer__source-picker-chevron" />
-        </button>
+        </button> */}
       </div>
 
       <div className="composer__row composer__row--bottom">
         <div className="composer__actions">
-          <button type="button" className="composer__action">
+          {/* <button type="button" className="composer__action">
             <IconPlus className="composer__action-icon" />
             Add Attachment
           </button>
           <button type="button" className="composer__action">
             <IconImage className="composer__action-icon" />
             Use Image
-          </button>
+          </button> */}
         </div>
 
         <div className="composer__meta">

@@ -1,12 +1,13 @@
 from contextlib import asynccontextmanager
+from pathlib import Path
 
-from fastapi import FastAPI
+from fastapi import FastAPI, File, UploadFile
 from fastapi.responses import StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.rag import stream_rag
 from app.schemas import ChatRequest
-from app.document_loader import load_and_split_document
+from app.document_loader import DOCUMENT_PATH, load_and_split_document
 from app.vector_store import index_documents, get_vector_store
 from app.run_sanity_check import run_sanity_check
 
@@ -55,12 +56,15 @@ def get_document_chunks():
         ],
     }
 
-@app.post("/documents/index")
-def index_pdf():
+@app.post("/documents/reindex")
+async def reindex_document(file: UploadFile = File(...)):
+    content = await file.read()
+    Path(DOCUMENT_PATH).write_bytes(content)
+
     count = index_documents()
 
     return {
-        "message": "Document indexed successfully",
+        "message": "Document reindexed successfully",
         "chunks": count,
     }
 
