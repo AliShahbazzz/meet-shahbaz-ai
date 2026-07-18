@@ -303,8 +303,40 @@ body {
 .followup-suggestions {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 8px;
   margin-bottom: 10px;
+}
+
+.followup-suggestions__toggle {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 10px 6px 8px;
+  margin-left: auto;
+  color: #6b6b74;
+  background: none;
+  border: 0;
+  border-radius: 20px;
+  cursor: pointer;
+  font: inherit;
+  font-size: 12px;
+}
+
+.followup-suggestions__toggle:hover {
+  color: #c4c4c9;
+  background: rgb(255 255 255 / 8%);
+}
+
+.followup-suggestions__toggle-icon {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.15s ease;
+}
+
+.followup-suggestions__toggle-icon--collapsed {
+  transform: rotate(-90deg);
 }
 
 .followup-suggestion {

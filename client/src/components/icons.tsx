@@ -106,6 +106,14 @@ export function IconArrowRight(props: SVGProps<SVGSVGElement>) {
   );
 }
 
+export function IconClose(props: SVGProps<SVGSVGElement>) {
+  return (
+    <Icon {...props}>
+      <path d="M6 6l12 12M18 6 6 18" />
+    </Icon>
+  );
+}
+
 export function IconRocket(props: SVGProps<SVGSVGElement>) {
   return (
     <Icon {...props}>

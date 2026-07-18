@@ -142,6 +142,7 @@ function FollowUpSuggestions({ usedPrompts, onUsePrompt }: PromptsProps) {
   const isRunning = useAuiState((state) => state.thread.isRunning);
   const messageCount = useAuiState((state) => state.thread.messages.length);
   const [offset, setOffset] = useState(0);
+  const [visible, setVisible] = useState(true);
 
   useEffect(() => {
     if (!isRunning) {
@@ -158,18 +159,34 @@ function FollowUpSuggestions({ usedPrompts, onUsePrompt }: PromptsProps) {
 
   return (
     <div className="followup-suggestions">
-      {prompts.map(({ text, icon: PromptIcon }) => (
-        <ThreadPrimitive.Suggestion
-          key={text}
-          className="followup-suggestion"
-          prompt={text}
-          send
-          onClick={() => onUsePrompt(text)}
-        >
-          <PromptIcon className="followup-suggestion__icon" />
-          <span>{text}</span>
-        </ThreadPrimitive.Suggestion>
-      ))}
+      {visible &&
+        prompts.map(({ text, icon: PromptIcon }) => (
+          <ThreadPrimitive.Suggestion
+            key={text}
+            className="followup-suggestion"
+            prompt={text}
+            send
+            onClick={() => onUsePrompt(text)}
+          >
+            <PromptIcon className="followup-suggestion__icon" />
+            <span>{text}</span>
+          </ThreadPrimitive.Suggestion>
+        ))}
+      <button
+        type="button"
+        className="followup-suggestions__toggle"
+        onClick={() => setVisible((v) => !v)}
+        aria-pressed={visible}
+      >
+        <IconChevronDown
+          className={
+            visible
+              ? "followup-suggestions__toggle-icon"
+              : "followup-suggestions__toggle-icon followup-suggestions__toggle-icon--collapsed"
+          }
+        />
+        {visible ? "Hide suggestions" : "Show suggestions"}
+      </button>
     </div>
   );
 }
