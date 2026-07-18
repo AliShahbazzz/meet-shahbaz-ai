@@ -1,3 +1,5 @@
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
 from fastapi.responses import StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
@@ -8,7 +10,12 @@ from app.document_loader import load_and_split_document
 from app.vector_store import index_documents, get_vector_store
 from app.run_sanity_check import run_sanity_check
 
-app = FastAPI(title="Basic RAG API")
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    get_vector_store()
+    yield
+
+app = FastAPI(title="Basic RAG API", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
