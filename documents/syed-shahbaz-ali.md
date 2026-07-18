@@ -25,7 +25,7 @@ rather than clunky.
 
 #### Software Engineer, zotok.ai — Hyderabad, India (Jun 2023 - Present)
 
-ZöTok is a supply chain AI solution that streamlines the entire
+ZöTok(https://zotok.ai/) is a supply chain AI solution that streamlines the entire
 order-to-cash process directly through WhatsApp.
 
 I built an AI-powered knowledge retrieval assistant that transformed 
@@ -75,7 +75,7 @@ direction and architecture decisions for the team's work.
 
 #### Software Engineer, AVRL — Hyderabad, India (Nov 2021 - May 2023)
 
-AVRL-Generation is a platform for applying decision-making technology in
+AVRL-Generation(https://avrl.io/) is a platform for applying decision-making technology in
 logistics, designed to be manageable even by a non-technical workforce.
 
 I built automation workflows for multiple logistics platforms to scrape
@@ -94,7 +94,7 @@ effort needed to keep everything running as sites changed.
 
 #### Software Engineer Intern, Mytra Money — Hyderabad, India (Jul 2021 - Oct 2021)
 
-Mytra Money is a tech-fin product providing ERP capabilities at the heart
+Mytra Money(https://mytra.money/) is a tech-fin product providing ERP capabilities at the heart
 of a digital banking experience for businesses and individuals.
 
 The thing I'm most proud of from this internship is designing a
@@ -143,7 +143,7 @@ trekking trips and expeditions rather than casual weekend walks, and I
 enjoy the kind of challenge that comes with planning and pushing through
 a multi-day trek. I'm also fairly serious about fitness: I do gym and
 strength training regularly, run, and have taken part in marathons.
-Alongside that, I play cricket and football when I get the chance.
+Alongside that, I play football, badminton and cricket when I get the chance.
 
 If you asked a close coworker to describe my personality in one line,
 they'd probably say I'm persistent — I don't give up easily on a hard bug

@@ -32,20 +32,39 @@ import {
 import "./App.css";
 
 const PROMPT_POOL = [
-  { text: "What's the hardest technical problem he's solved recently?", icon: IconSliders },
-  { text: "What did he build at zotok.ai as an AI assistant?", icon: IconChat },
-  { text: "How did he cut page load times by 70%?", icon: IconRocket },
-  { text: "What's it like working with him as a team lead?", icon: IconUsers },
-  { text: "What's his experience with LangGraph and AI agents?", icon: IconBrain },
-  { text: "Walk me through his frontend and AI skill set", icon: IconCode },
-  { text: "How was this very chatbot built?", icon: IconMessageCircle },
-  { text: "What kind of engineer is he outside of work?", icon: IconUser },
-  { text: "Is he open to new opportunities?", icon: IconBriefcase },
-  { text: "Get in touch with him directly", icon: IconMail },
+  { text: "How did Shahbaz turn raw WhatsApp chats into a searchable AI knowledge base?", icon: IconChat },
+  { text: "What made designing reliable AI agent workflows with LangGraph so hard?", icon: IconBrain },
+  { text: "How did you cut page load times by 70% and bundle size by 45%?", icon: IconRocket },
+  { text: "Why did Shahbaz split a growing codebase into a micro-frontend monorepo?", icon: IconCode },
+  { text: "How did you bridge an offline Tally ERP system with the cloud in a desktop app?", icon: IconSliders },
+  { text: "What's it like leading a team of 6 engineers day-to-day?", icon: IconUsers },
+  { text: "How did Shahbaz keep web scrapers running against constantly changing sites?", icon: IconGlobe },
+  { text: "What's the JSON-driven UI system Shahbaz is most proud of building?", icon: IconMessageCircle },
+  { text: "How was this very RAG chatbot actually built, end to end?", icon: IconChat },
+  { text: "What tech stack powers Shahbaz's AI and frontend work?", icon: IconCode },
+  { text: "What embedding model and search technique powers that WhatsApp AI assistant?", icon: IconBrain },
+  { text: "What would a coworker say about what it's like working with Shahbaz?", icon: IconUser },
+  { text: "What does Shahbaz do for fun?", icon: IconUser },
+  { text: "What's the toughest trek or expedition Shahbaz has taken on?", icon: IconGlobe },
+  { text: "Where can I find Shahbaz's LinkedIn profile?", icon: IconBriefcase },
+  { text: "How can I get in touch with Shahbaz directly?", icon: IconMail },
+  { text: "What's Shahbaz's experience with Redux Toolkit and state management?", icon: IconSliders },
+  { text: "How does Shahbaz approach a stubborn, hard-to-fix bug?", icon: IconBrain },
+  { text: "What was the trickiest part of building a React + Electron desktop app?", icon: IconCode },
+  { text: "How did Shahbaz customize Typebot for custom conversational flows?", icon: IconMessageCircle },
+  { text: "What AWS services has Shahbaz worked with?", icon: IconGlobe },
+  { text: "What's the story behind Shahbaz's CS degree and self-taught web skills?", icon: IconUser },
+  { text: "Why is Shahbaz drawn to AI/LLM systems over pure frontend work now?", icon: IconRocket },
 ];
 
-function pickRandomPrompts(count: number) {
-  return [...PROMPT_POOL].sort(() => Math.random() - 0.5).slice(0, count);
+type PromptItem = (typeof PROMPT_POOL)[number];
+
+/** Rotates through `items` starting at `offset`, without repeating any item. */
+function rotateWindow(items: PromptItem[], offset: number, count: number): PromptItem[] {
+  if (items.length === 0) return [];
+  if (items.length <= count) return items;
+  const start = offset % items.length;
+  return Array.from({ length: count }, (_, i) => items[(start + i) % items.length]!);
 }
 
 function UserMessage() {
@@ -114,18 +133,28 @@ function Composer() {
   );
 }
 
-function FollowUpSuggestions() {
+type PromptsProps = {
+  usedPrompts: Set<string>;
+  onUsePrompt: (text: string) => void;
+};
+
+function FollowUpSuggestions({ usedPrompts, onUsePrompt }: PromptsProps) {
   const isRunning = useAuiState((state) => state.thread.isRunning);
   const messageCount = useAuiState((state) => state.thread.messages.length);
-  const [prompts, setPrompts] = useState(() => pickRandomPrompts(3));
+  const [offset, setOffset] = useState(0);
 
   useEffect(() => {
     if (!isRunning) {
-      setPrompts(pickRandomPrompts(3));
+      setOffset((o) => o + 3);
     }
   }, [isRunning, messageCount]);
 
   if (isRunning) return null;
+
+  const available = PROMPT_POOL.filter((p) => !usedPrompts.has(p.text));
+  const prompts = rotateWindow(available, offset, 3);
+
+  if (prompts.length === 0) return null;
 
   return (
     <div className="followup-suggestions">
@@ -135,6 +164,7 @@ function FollowUpSuggestions() {
           className="followup-suggestion"
           prompt={text}
           send
+          onClick={() => onUsePrompt(text)}
         >
           <PromptIcon className="followup-suggestion__icon" />
           <span>{text}</span>
@@ -144,19 +174,23 @@ function FollowUpSuggestions() {
   );
 }
 
-function WelcomeScreen() {
-  const [prompts, setPrompts] = useState(() => pickRandomPrompts(4));
+function WelcomeScreen({ usedPrompts, onUsePrompt }: PromptsProps) {
+  const [offset, setOffset] = useState(0);
+
+  const available = PROMPT_POOL.filter((p) => !usedPrompts.has(p.text));
+  const prompts = rotateWindow(available, offset, 4);
 
   return (
     <div className="welcome">
       <h1 className="welcome__heading">
         <span className="welcome__heading-strong">Hi there, </span>
         <br />
-        <span className="welcome__heading-muted">What would like to know?</span>
+        <span className="welcome__heading-muted">ask me anything about Shahbaz</span>
       </h1>
 
       <p className="welcome__subtitle">
-        Use one of the most common prompts below or use your own to begin
+        I'm Shahbaz, but AI — ask about his experience, projects, or skills,
+        or start with one of the prompts below.
       </p>
 
       <div className="prompt-grid">
@@ -166,6 +200,7 @@ function WelcomeScreen() {
             className="prompt-card"
             prompt={text}
             send
+            onClick={() => onUsePrompt(text)}
           >
             <span className="prompt-card__text">{text}</span>
             <PromptIcon className="prompt-card__icon" />
@@ -173,8 +208,15 @@ function WelcomeScreen() {
         ))}
       </div>
 
-      <br />
-      <br />
+      <button
+        type="button"
+        className="refresh-prompts"
+        onClick={() => setOffset((o) => o + 4)}
+        disabled={available.length <= 4}
+      >
+        <IconRefresh className="refresh-prompts__icon" />
+        Refresh Prompts
+      </button>
 
       <Composer />
     </div>
@@ -182,11 +224,16 @@ function WelcomeScreen() {
 }
 
 function ChatThread() {
+  const [usedPrompts, setUsedPrompts] = useState<Set<string>>(() => new Set());
+
+  const markPromptUsed = (text: string) =>
+    setUsedPrompts((prev) => (prev.has(text) ? prev : new Set(prev).add(text)));
+
   return (
     <ThreadPrimitive.Root className="app-shell">
       <ThreadPrimitive.Viewport className="chat__viewport">
         <AuiIf condition={(s) => s.thread.isEmpty}>
-          <WelcomeScreen />
+          <WelcomeScreen usedPrompts={usedPrompts} onUsePrompt={markPromptUsed} />
         </AuiIf>
 
         <AuiIf condition={(s) => !s.thread.isEmpty}>
@@ -203,7 +250,7 @@ function ChatThread() {
 
       <AuiIf condition={(s) => !s.thread.isEmpty}>
         <div className="composer-dock">
-          <FollowUpSuggestions />
+          <FollowUpSuggestions usedPrompts={usedPrompts} onUsePrompt={markPromptUsed} />
           <Composer />
         </div>
       </AuiIf>

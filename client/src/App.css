@@ -71,6 +71,32 @@ body {
   margin-top: 28px;
 }
 
+@media (max-width: 640px) {
+  .welcome__heading {
+    font-size: 26px;
+  }
+
+  .prompt-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .prompt-card {
+    min-height: 80px;
+    padding: 12px;
+  }
+
+  .prompt-card__text {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 380px) {
+  .prompt-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .prompt-card {
   display: flex;
   flex-direction: column;
@@ -154,7 +180,7 @@ body {
 }
 
 .message__bubble {
-  max-width: 75%;
+  max-width: 100%;
   padding: 10px 16px;
   border-radius: 16px;
   line-height: 1.5;
@@ -168,6 +194,7 @@ body {
   color: #f4f4f5;
   background: #1f1f23;
   white-space: pre-wrap;
+  max-width: 85%;
 }
 
 .message--assistant .message__bubble {
