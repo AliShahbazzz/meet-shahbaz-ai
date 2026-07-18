@@ -1,6 +1,6 @@
 from collections.abc import Iterator
-from app.llm import llm
-from app.vector_store import vector_store
+from app.llm import get_llm
+from app.vector_store import get_vector_store
 import json
 
 from langchain_core.prompts import ChatPromptTemplate
@@ -73,7 +73,7 @@ Answer:
 
 def stream_rag(question: str) -> Iterator[str]:
     try:
-        documents = vector_store.similarity_search(
+        documents = get_vector_store().similarity_search(
             question,
             k=5,
         )
@@ -94,7 +94,7 @@ def stream_rag(question: str) -> Iterator[str]:
             ],
         }, ensure_ascii=False) + "\n"
 
-        chain = prompt | llm
+        chain = prompt | get_llm()
         full_response = ""
 
         for chunk in chain.stream({

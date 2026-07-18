@@ -2,11 +2,10 @@ from fastapi import FastAPI
 from fastapi.responses import StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.vector_store import vector_store
 from app.rag import stream_rag
 from app.schemas import ChatRequest
 from app.document_loader import load_and_split_document
-from app.vector_store import index_documents, vector_store
+from app.vector_store import index_documents, get_vector_store
 from app.run_sanity_check import run_sanity_check
 
 app = FastAPI(title="Basic RAG API")
@@ -62,7 +61,7 @@ def index_pdf():
 @app.get("/debug/search")
 def debug_search(query: str):
 
-    results = vector_store.similarity_search_with_score(
+    results = get_vector_store().similarity_search_with_score(
         query,
         k=5,
     )

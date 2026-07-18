@@ -1,5 +1,4 @@
-from app.embeddings import embeddings
-from app.vector_store import vector_store  # or wherever you instantiate it
+from app.vector_store import get_vector_store  # or wherever you instantiate it
 from app.document_loader import load_and_split_document
 
 
@@ -18,7 +17,7 @@ def run_sanity_check():
 
     for query in test_queries:
         print(f"Query: {query}")
-        results = vector_store.similarity_search_with_score(query, k=2)
+        results = get_vector_store().similarity_search_with_score(query, k=2)
 
         for doc, score in results:
             role = doc.metadata.get("role", doc.metadata.get("section", "N/A"))
