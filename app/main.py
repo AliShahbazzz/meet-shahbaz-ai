@@ -11,6 +11,7 @@ from app.document_loader import DOCUMENT_PATH, load_and_split_document
 from app.vector_store import index_documents, get_vector_store
 from app.run_sanity_check import run_sanity_check
 from app.sheets import log_question
+from app.retriever import retrieve_with_scores
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -75,10 +76,7 @@ async def reindex_document(file: UploadFile = File(...)):
 @app.get("/debug/search")
 def debug_search(query: str):
 
-    results = get_vector_store().similarity_search_with_score(
-        query,
-        k=5,
-    )
+    results = retrieve_with_scores(query)
 
     return {
         "query": query,

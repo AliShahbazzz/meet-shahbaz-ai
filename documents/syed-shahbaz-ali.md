@@ -25,19 +25,18 @@ rather than clunky.
 
 #### Software Engineer, zotok.ai — Hyderabad, India (Jun 2023 - Present)
 
-ZöTok(https://zotok.ai/) is a supply chain AI solution that streamlines the entire
+[ZöTok](https://zotok.ai/) is a supply chain AI solution that streamlines the entire
 order-to-cash process directly through WhatsApp.
 
-I built an AI-powered knowledge retrieval assistant that transformed 
-WhatsApp group messages into vector embeddings and used hybrid search—combining 
-BM25 and semantic vector search—to retrieve relevant information from 
-large volumes of conversations. The system used LangGraph, 
-OpenAI’s text-embedding-3-small model, and OpenSearch, along with message categorization, real-time streaming, 
-and dynamic response rendering. The hardest part was designing reliable agent 
-logic and workflows: determining how the agent should handle multi-step tasks, 
-select and call the right tools, retrieve relevant context, and keep its behavior 
+I built an AI-powered knowledge retrieval assistant that transformed
+WhatsApp group messages into vector embeddings and used hybrid search—combining
+BM25 and semantic vector search—to retrieve relevant information from
+large volumes of conversations. The system used LangGraph,
+OpenAI’s text-embedding-3-small model, and OpenSearch, along with message categorization, real-time streaming,
+and dynamic response rendering. The hardest part was designing reliable agent
+logic and workflows: determining how the agent should handle multi-step tasks,
+select and call the right tools, retrieve relevant context, and keep its behavior
 predictable as the product scope expanded.
-
 
 I led frontend performance optimization work that reduced initial page
 load times by 70% and bundle size by 45%. This came from a combination of
@@ -75,7 +74,7 @@ direction and architecture decisions for the team's work.
 
 #### Software Engineer, AVRL — Hyderabad, India (Nov 2021 - May 2023)
 
-AVRL-Generation(https://avrl.io/) is a platform for applying decision-making technology in
+[AVRL-Generation](https://avrl.io/) is a platform for applying decision-making technology in
 logistics, designed to be manageable even by a non-technical workforce.
 
 I built automation workflows for multiple logistics platforms to scrape
@@ -94,7 +93,7 @@ effort needed to keep everything running as sites changed.
 
 #### Software Engineer Intern, Mytra Money — Hyderabad, India (Jul 2021 - Oct 2021)
 
-Mytra Money(https://mytra.money/) is a tech-fin product providing ERP capabilities at the heart
+[Mytra Money](https://mytra.money/) is a tech-fin product providing ERP capabilities at the heart
 of a digital banking experience for businesses and individuals.
 
 The thing I'm most proud of from this internship is designing a
@@ -118,23 +117,40 @@ theoretical fundamentals from class.
 
 ## Skills
 
-**Frontend:** JavaScript (ES6), TypeScript, React.js, Next.js, HTML, CSS,
-SCSS, REST APIs. This is the space I've spent the most time in professionally,
-across three different companies, ranging from building reusable component
-systems to leading performance optimization initiatives.
+### Frontend
 
-**AI & Backend:** LangGraph, NestJS, Python, Django, MySQL, DynamoDB. I've
-used LangGraph specifically to build multi-step agent workflows and
-tool-calling logic — designing how an AI agent reasons through a task and
-decides which tools to invoke and when. I've also built RAG (Retrieval-
-Augmented Generation) pipelines, including the very chatbot this
-information is powering.
+JavaScript (ES6), TypeScript, React.js, Next.js, HTML, CSS, SCSS, REST
+APIs. This is the space I've spent the most time in professionally,
+across three different companies, ranging from building reusable
+component systems to leading performance optimization initiatives.
 
-**Tools:** Assistant UI, Nx, Webpack, Babel, Redux Toolkit (RTK), Git,
-Bundle Analyzer — tools I've used heavily in the context of the frontend
+### AI
+
+LangGraph, OpenAI text-embedding-3-small, OpenSearch, hybrid search
+(BM25 + semantic vector search). I've used LangGraph specifically to
+build multi-step agent workflows and tool-calling logic — designing how
+an AI agent reasons through a task and decides which tools to invoke and
+when. I've also built RAG (Retrieval-Augmented Generation) pipelines end
+to end, including a knowledge retrieval assistant that turns WhatsApp
+group messages into searchable vector embeddings, and this very chatbot
+that this information is powering.
+
+### Backend
+
+NestJS, Python, Django, MySQL, DynamoDB. My backend work has mostly been
+in service of the AI and frontend systems I build — designing APIs and
+data layers that support real-time streaming responses and agent-driven
+workflows rather than backend work as a standalone focus.
+
+### Tools
+
+Assistant UI, Nx, Webpack, Babel, Redux Toolkit (RTK), Git, Bundle
+Analyzer — tools I've used heavily in the context of the frontend
 performance and monorepo/micro-frontend work described above.
 
-**Cloud & Infra:** AWS (EC2, DynamoDB, CloudFront, Lambda, S3, Route 53).
+### Cloud & Infra
+
+AWS (EC2, DynamoDB, CloudFront, Lambda, S3, Route 53).
 
 ## Personal
 
@@ -152,6 +168,21 @@ understand what's going wrong than move on with a half-fix. That trait
 shows up as much in how I approach a stubborn production issue as it does
 in finishing a long trek.
 
+Right now, I'm intentionally going deeper into JavaScript fundamentals,
+data structures and algorithms, and system design — revisiting the core
+foundations even though I use them daily, because I find real gaps show up
+under that kind of scrutiny. I'm also genuinely curious about how AI can
+be used in development itself, not just in the products I build — things
+like AI-assisted coding workflows and how engineering practices are
+shifting as a result.
+
+I'm an in-office person by preference. I like being around people I work
+with — talking through problems out loud, collaborating closely with
+teammates, and being part of open discussion rather than working in
+isolation. I enjoy both sharing my own ideas and hearing other people's,
+and I find collective brainstorming genuinely energizing rather than a
+distraction from "real work."
+
 ## Projects
 
 #### Meet Shahbaz — an AI chatbot built from my own resume
@@ -166,3 +197,4 @@ built with assistant-ui. Beyond just being a demo, it reflects the same
 kind of AI/LLM work I care about professionally — designing how a system
 retrieves the right context and reasons over it to produce a useful,
 grounded answer instead of a generic or hallucinated one.
+
