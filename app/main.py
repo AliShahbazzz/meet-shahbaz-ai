@@ -1,7 +1,7 @@
 from contextlib import asynccontextmanager
 from pathlib import Path
 
-from fastapi import FastAPI, File, UploadFile
+from fastapi import BackgroundTasks, FastAPI, File, UploadFile
 from fastapi.responses import StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -10,6 +10,7 @@ from app.schemas import ChatRequest
 from app.document_loader import DOCUMENT_PATH, load_and_split_document
 from app.vector_store import index_documents, get_vector_store
 from app.run_sanity_check import run_sanity_check
+from app.sheets import log_question
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -31,7 +32,9 @@ def health():
     return {"status": "ok"}
 
 @app.post("/chat")
-def chat(request: ChatRequest):
+def chat(request: ChatRequest, background_tasks: BackgroundTasks):
+    background_tasks.add_task(log_question, request.message)
+
     return StreamingResponse(
         stream_rag(request.message),
         media_type="application/x-ndjson",
