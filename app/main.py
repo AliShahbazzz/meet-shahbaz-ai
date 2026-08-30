@@ -1,7 +1,9 @@
+import hmac
+import os
 from contextlib import asynccontextmanager
 from pathlib import Path
 
-from fastapi import BackgroundTasks, FastAPI, File, UploadFile
+from fastapi import BackgroundTasks, Depends, FastAPI, File, Header, HTTPException, UploadFile
 from fastapi.responses import StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -32,6 +34,11 @@ app.add_middleware(
 def health():
     return {"status": "ok"}
 
+def require_reindex_key(x_api_key: str = Header(...)):
+    expected_key = os.getenv("REINDEX_API_KEY")
+    if not expected_key or not hmac.compare_digest(x_api_key, expected_key):
+        raise HTTPException(status_code=401, detail="Invalid API key")
+
 @app.post("/chat")
 def chat(request: ChatRequest, background_tasks: BackgroundTasks):
     background_tasks.add_task(log_question, request.message)
@@ -60,7 +67,7 @@ def get_document_chunks():
         ],
     }
 
-@app.post("/documents/reindex")
+@app.post("/documents/reindex", dependencies=[Depends(require_reindex_key)])
 async def reindex_document(file: UploadFile = File(...)):
     content = await file.read()
     Path(DOCUMENT_PATH).write_bytes(content)
