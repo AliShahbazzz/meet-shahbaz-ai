@@ -7,6 +7,7 @@ import {
   ThreadPrimitive,
   useAuiState,
   useLocalRuntime,
+  type EmptyMessagePartComponent,
 } from "@assistant-ui/react";
 
 import { chatModel } from "./lib/chat-model";
@@ -77,11 +78,24 @@ function UserMessage() {
   );
 }
 
+/** Shown from when a question is sent until the first token arrives. */
+const MessageLoader: EmptyMessagePartComponent = ({ status }) => {
+  if (status.type !== "running") return null;
+
+  return (
+    <span className="message-loader" role="status" aria-label="Loading response">
+      <span className="message-loader__dot" />
+      <span className="message-loader__dot" />
+      <span className="message-loader__dot" />
+    </span>
+  );
+};
+
 function AssistantMessage() {
   return (
     <MessagePrimitive.Root className="message message--assistant">
       <div className="message__bubble">
-        <MessagePrimitive.Content components={{ Text: MarkdownText }} />
+        <MessagePrimitive.Content components={{ Text: MarkdownText, Empty: MessageLoader }} />
       </div>
     </MessagePrimitive.Root>
   );

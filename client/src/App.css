@@ -201,6 +201,50 @@ body {
   color: #e4e4e7;
 }
 
+.message-loader {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 24px;
+}
+
+.message-loader__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: message-loader-pulse 1.2s ease-in-out infinite;
+}
+
+.message-loader__dot:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.message-loader__dot:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes message-loader-pulse {
+  0%,
+  60%,
+  100% {
+    opacity: 0.25;
+    transform: translateY(0);
+  }
+
+  30% {
+    opacity: 1;
+    transform: translateY(-3px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .message-loader__dot {
+    animation: none;
+    opacity: 0.6;
+  }
+}
+
 .markdown {
   display: flex;
   flex-direction: column;
