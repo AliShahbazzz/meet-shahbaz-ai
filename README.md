@@ -47,7 +47,7 @@ projects, skills, or how the chatbot itself was built.
   **Google Cloud Run**.
 - **LangChain** (`langchain`, `langchain-classic`, `langchain-community`)
   for orchestration — prompting, text splitting, retrieval.
-- **Groq** (`llama-3.1-8b-instant` via `langchain-groq`) as the LLM,
+- **Groq** (`openai/gpt-oss-20b` via `langchain-groq`) as the LLM,
   streamed with temperature 0 for consistent, grounded answers.
 - **ChromaDB** (via `langchain-chroma`) as the vector store, persisted to
   `data/chroma_db`.
